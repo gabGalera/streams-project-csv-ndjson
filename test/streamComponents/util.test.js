@@ -8,7 +8,7 @@ describe("Log Suite Test", () => {
 
   afterAll(() => jest.clearAllMocks());
 
-  it.todo("writeInput", () => {
+  it("writeInput", () => {
     const msg = "test";
     log(msg);
     expect(readline.cursorTo).toBeCalledWith(process.stdout, 0);
