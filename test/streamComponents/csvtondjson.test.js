@@ -18,15 +18,61 @@ describe("CSV To NDJSON test suite", () => {
 
     csvToJSON.on("data", fn);
     csvToJSON.write(csvString);
-    csvString.end();
+    csvToJSON.end();
 
     const [current] = fn.mock.lastCall;
-    expect(current).toStrictEqual(expected);
+    expect(JSON.parse(current)).toStrictEqual(JSON.parse(expected));
   });
-  it.todo(
-    "it should work with strings that doesn't contain breaklines at the end"
-  );
-  it.todo(
-    "it should work with files that has breaklines at the beginning of the string"
-  );
+  it("it should work with strings that doesn't contain breaklines at the end", () => {
+    const csvString = `id,name,address\n01,gabriel,address01`;
+    const csvToJSON = new CSVToNDJSON({
+      delimiter: ",",
+      headers: ["id", "name", "address"],
+    });
+
+    const expected = JSON.stringify({
+      id: "01",
+      name: "gabriel",
+      address: "address01",
+    });
+    const fn = jest.fn();
+
+    csvToJSON.on("data", fn);
+    csvToJSON.write(csvString);
+    csvToJSON.end();
+
+    const [current] = fn.mock.lastCall;
+    expect(JSON.parse(current)).toStrictEqual(JSON.parse(expected));
+  });
+  it("it should work with files that has breaklines at the beginning of the string", () => {
+    const csvString = `\n\nid,name,address\n01,gabriel,address01\n02,erick,mystreet`;
+    const csvToJSON = new CSVToNDJSON({
+      delimiter: ",",
+      headers: ["id", "name", "address"],
+    });
+
+    const expected = [
+      JSON.stringify({
+        id: "01",
+        name: "gabriel",
+        address: "address01",
+      }),
+      JSON.stringify({
+        id: "02",
+        name: "erick",
+        address: "mystreet",
+      }),
+    ];
+    const fn = jest.fn();
+
+    csvToJSON.on("data", fn);
+    csvToJSON.write(csvString);
+    csvToJSON.end();
+
+    const [firstCall] = fn.mock.calls[0];
+    const [secondCall] = fn.mock.calls[1];
+
+    expect(JSON.parse(firstCall)).toStrictEqual(JSON.parse(expected[0]));
+    expect(JSON.parse(secondCall)).toStrictEqual(JSON.parse(expected[1]));
+  });
 });
