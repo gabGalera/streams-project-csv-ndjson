@@ -1,0 +1,17 @@
+{
+  "name": "streams-project-data-splitter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "git@github.com:gabGalera/streams-project-data-splitter.git",
+  "author": "Gabriel Galera <gabgalera@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand --watchAll"
+  },
+  "dependencies": {
+    "jest": "29.2"
+  }
+}
