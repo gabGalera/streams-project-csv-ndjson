@@ -1,6 +1,4 @@
-import { expect, describe, it, jest, afterAll } from "@jest/globals";
-import { log } from "../../src/util";
-import readline from "node:readline";
+import { expect, describe, it, jest } from "@jest/globals";
 import Reporter from "../../src/streamComponents/reporter";
 
 describe("Reporter Suite Test", () => {
@@ -9,7 +7,7 @@ describe("Reporter Suite Test", () => {
     const reporter = new Reporter({
       logger: loggerMock,
     });
-
+    reporter.LINE_LENGTH_AFTER_TURNED_INTO_JSON = 0;
     const multiple = 10;
     const progress = reporter.progress(multiple);
 

@@ -59,6 +59,6 @@ export default class CSVToNDJSON extends Transform {
       this.push(item);
     }
 
-    callback();
+    return callback();
   }
 }
